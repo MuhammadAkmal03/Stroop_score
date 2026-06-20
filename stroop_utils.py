@@ -194,15 +194,21 @@ def process_single_file(
             .str.strip()
             .str.capitalize()
             .isin(valid_conditions)
-        ]
+        ].copy()
+
+        low_acc["key_resp_10.corr"] = pd.to_numeric(
+            low_acc["key_resp_10.corr"],
+            errors="coerce"
+        )
+
+        low_acc = low_acc.dropna(
+            subset=["key_resp_10.corr"]
+        )
 
         total_trials += len(low_acc)
 
         correct_trials += (
-            pd.to_numeric(
-                low_acc["key_resp_10.corr"],
-                errors="coerce"
-            ) == 1
+            low_acc["key_resp_10.corr"] == 1
         ).sum()
 
         low_data.columns = [
@@ -243,15 +249,21 @@ def process_single_file(
             .str.strip()
             .str.capitalize()
             .isin(valid_conditions)
-        ]
+        ].copy()
+
+        high_acc["key_resp.corr"] = pd.to_numeric(
+            high_acc["key_resp.corr"],
+            errors="coerce"
+        )
+
+        high_acc = high_acc.dropna(
+            subset=["key_resp.corr"]
+        )
 
         total_trials += len(high_acc)
 
         correct_trials += (
-            pd.to_numeric(
-                high_acc["key_resp.corr"],
-                errors="coerce"
-            ) == 1
+            high_acc["key_resp.corr"] == 1
         ).sum()
 
         high_data.columns = [
@@ -284,15 +296,21 @@ def process_single_file(
             .str.strip()
             .str.capitalize()
             .isin(valid_conditions)
-        ]
+        ].copy()
+
+        low_acc["key_resp_10.corr"] = pd.to_numeric(
+            low_acc["key_resp_10.corr"],
+            errors="coerce"
+        )
+
+        low_acc = low_acc.dropna(
+            subset=["key_resp_10.corr"]
+        )
 
         total_trials += len(low_acc)
 
         correct_trials += (
-            pd.to_numeric(
-                low_acc["key_resp_10.corr"],
-                errors="coerce"
-            ) == 1
+            low_acc["key_resp_10.corr"] == 1
         ).sum()
 
         low_data.columns = [
