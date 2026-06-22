@@ -120,6 +120,12 @@ def process_single_file(
     total_trials = 0
     correct_trials = 0
 
+    high_total_trials = 0
+    high_correct_trials = 0
+
+    low_total_trials = 0
+    low_correct_trials = 0
+
     # PARTICIPANT NAME
 
     participant = "Unknown"
@@ -205,6 +211,13 @@ def process_single_file(
             subset=["key_resp_10.corr"]
         )
 
+        low_total_trials = len(low_acc)
+
+        low_correct_trials = (
+            low_acc["key_resp_10.corr"] == 1
+        ).sum()
+        
+
         total_trials += len(low_acc)
 
         correct_trials += (
@@ -260,6 +273,12 @@ def process_single_file(
             subset=["key_resp.corr"]
         )
 
+        high_total_trials = len(high_acc)
+
+        high_correct_trials = (
+            high_acc["key_resp.corr"] == 1
+        ).sum()
+
         total_trials += len(high_acc)
 
         correct_trials += (
@@ -307,6 +326,12 @@ def process_single_file(
             subset=["key_resp_10.corr"]
         )
 
+        low_total_trials = len(low_acc)
+
+        low_correct_trials = (
+            low_acc["key_resp_10.corr"] == 1
+        ).sum()
+
         total_trials += len(low_acc)
 
         correct_trials += (
@@ -343,6 +368,18 @@ def process_single_file(
                 low_data
             )
 
+            low_total_trials, high_total_trials = (
+                high_total_trials,
+                low_total_trials
+            )
+
+            low_correct_trials, high_correct_trials = (
+                high_correct_trials,
+                low_correct_trials
+            )
+
+
+
         else:
 
             # first block is HIGH
@@ -363,6 +400,8 @@ def process_single_file(
     # OUTPUT
     
     accuracy = None
+    high_accuracy = None
+    low_accuracy = None
 
     if total_trials > 0:
 
@@ -371,13 +410,33 @@ def process_single_file(
             2
         )
 
+    if high_total_trials > 0:
+
+        high_accuracy = round(
+            (high_correct_trials / high_total_trials) * 100,
+            2
+        )
+
+    if low_total_trials > 0:
+
+        low_accuracy = round(
+            (low_correct_trials / low_total_trials) * 100,
+            2
+        )
+
     return {
 
         "Participant":
             participant,
         
-        "Accuracy (%)":
+        "Overall_Accuracy (%)":
             accuracy,
+
+        "33N_Accuracy (%)":
+            high_accuracy,
+
+        "75N_Accuracy (%)":
+            low_accuracy,
 
         "33N_Neutral_Mean":
             high_scores["Neutral"],
